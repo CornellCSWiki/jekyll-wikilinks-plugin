@@ -50,25 +50,25 @@ module Jekyll
       end
 
       def markdown
-        @match.nil? ? "\\[\\[#{title}\\]\\]" : "[#{title}](#{url})"
+        @match.nil? ? "[#{title}](#)" : "[#{title}](#{url})"
       end
     end
   end
 
-  module Convertible
-    alias old_transform transform
+  module Converters
+    class Markdown < Converter
+      alias old_convert convert
 
-    def transform
-      if converter.instance_of? Jekyll::Converters::Markdown
+      def convert(content)
         pat = /\[\[(.+?)\]\]/
-        @content = @content.gsub(pat) do |m|
+        content = content.gsub(pat) do |m|
           wl = Wikilinks::Wikilink.parse(m)
-          wl.match_page(site.pages)
-          wl.match_post(site.posts) unless wl.has_match?
+          wl.match_page(Jekyll.sites[0].pages)
+          wl.match_post(Jekyll.sites[0].posts) unless wl.has_match?
           wl.markdown
         end
+        old_convert(content)
       end
-      old_transform
     end
   end
 end
