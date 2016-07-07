@@ -42,7 +42,7 @@ module Jekyll
       end
 
       def match_post(posts)
-        @match = posts.find { |p| p.slug.downcase == @name.downcase or match_title(p) == name }
+        @match = posts.docs.find { |p| p.slug.downcase == @name.downcase or match_title(p) == name }
       end
 
       def match_page(pages)
