@@ -12,7 +12,7 @@ module Jekyll
 
       def initialize(name, title)
         @name = name.strip
-        @title = title
+        @title = title.strip if not title.nil?
       end
 
       def title
