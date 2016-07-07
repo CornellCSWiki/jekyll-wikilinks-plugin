@@ -34,7 +34,7 @@ module Jekyll
       end
 
       def url
-        @match.url
+        "#{Jekyll.sites[0].baseurl}#{@match.url}"
       end
 
       def has_match?
